@@ -1,0 +1,107 @@
+{% extends "main_layout.html" %}
+
+{% block main %}
+<!-- Header -->
+<div class="header">
+        <div class="page-icons">
+            <a href="/dashboard" class="hyperlinks"><button class="page-icon active-icon">Dashboard</button></a>
+            <a href="/meals" class="hyperlinks"><button class="page-icon">Meals</button></a>
+            <a href="/friends" class="hyperlinks"><button class="page-icon">Friends</button></a>
+        </div>
+        <div class="user-icons">
+            <a href="#" class="user-icon" onclick="openProfileCard()">User</a>
+        </div>
+</div>
+
+<div class="container">
+    <div class="nutrition-charts">
+        <div class="weekly-stats">Weekly Statistics</div>
+        <div class="progress-chart">
+            <div class="progress-circle">
+                <svg viewBox="0 0 100 100">
+                    <circle class="progress-track" cx="50" cy="50" r="40" fill="none" stroke-width="8" stroke="#eee" />
+                    <circle class="progress-value carbs-progress-value" cx="50" cy="50" r="40" fill="none" stroke-width="8" stroke="#222" />
+                    <text class="progress-text carbs-progress-text" x="50" y="50" text-anchor="middle" dominant-baseline="central" font-size="20">{{ nutrition_chart_values["carbs"]["percentage"] }}%</text>
+                </svg>
+            </div>
+            <div class="progress-description">
+                <h3>Carbs</h3>
+                <p>Average: {{ nutrition_chart_values["carbs"]["average"] }}g</p>
+            </div>
+        </div>
+        <div class="progress-chart">
+            <div class="progress-circle">
+                <svg viewBox="0 0 100 100">
+                    <circle class="progress-track" cx="50" cy="50" r="40" fill="none" stroke-width="8" stroke="#eee" />
+                    <circle class="progress-value protein-progress-value" cx="50" cy="50" r="40" fill="none" stroke-width="8" stroke="#333" />
+                    <text class="progress-text protein-progress-text" x="50" y="50" text-anchor="middle" dominant-baseline="central" font-size="20">{{ nutrition_chart_values["protein"]["percentage"] }}%</text>
+                </svg>
+            </div>
+            <div class="progress-description">
+                <h3>Protein</h3>
+                <p>Average: {{ nutrition_chart_values["protein"]["average"] }}g</p>
+            </div>
+        </div>
+        <div class="progress-chart">
+            <div class="progress-circle">
+                <svg viewBox="0 0 100 100">
+                    <circle class="progress-track" cx="50" cy="50" r="40" fill="none" stroke-width="8" stroke="#eee" />
+                    <circle class="progress-value fats-progress-value" cx="50" cy="50" r="40" fill="none" stroke-width="8" stroke="#333" />
+                    <text class="progress-text fats-progress-text" x="50" y="50" text-anchor="middle" dominant-baseline="central" font-size="20">{{ nutrition_chart_values["fats"]["percentage"] }}%</text>
+                </svg>
+            </div>
+            <div class="progress-description">
+                <h3>Fats</h3>
+                <p>Average: {{ nutrition_chart_values["fats"]["average"] }}g</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="body-charts">
+        <!-- Caloric Chart -->
+        <canvas id="caloricLineChart">
+            <div class="caloricGoalValue" style="display: none;">{{ calorie_chart_values["goal"] }}</div>
+            <div id="caloricLineChartXValues">
+                {% for date in calorie_chart_values["dates"] %}
+                    <div class="caloricLineChartXValue">{{ date }}</div>
+                {% endfor %}
+            </div>
+            <div id="caloricLineChartYValues">
+                {% for daily_calorie in calorie_chart_values["calories"] %}
+                    <div class="caloricLineChartYValue">{{ daily_calorie }}</div>
+                {% endfor %}
+            </div>
+        </canvas>
+        <br><br><br><br>
+        <!-- Weight Chart -->
+        <canvas id="weightLineChart">
+            <div class="weightGoalValue" style="display: none;">{{ weight_chart_values["goal"] }}</div>
+            <div id="weightLineChartXValues">
+                {% for date in weight_chart_values["dates"] %}
+                    <div class="weightLineChartXValue">{{ date }}</div>
+                {% endfor %}
+            </div>
+            <div id="weightLineChartYValues">
+                {% for weight in weight_chart_values["weights"] %}
+                    <div class="weightLineChartYValue">{{ weight }}</div>
+                {% endfor %}
+            </div>
+        </canvas>
+        
+        {% if not today_added %}
+            <form class="add-weight-value" method="post" action="/add_weights">
+                <input name="today-weight-value" type="number" class="weight-value" min="0" max="200" required>
+                <button class="btn add-weight-btn">Add Today's Data</button>
+            </form>
+        {% else %}
+            <form class="add-weight-value" method="post" action="/edit_weights">
+                <input name="today-weight-value" type="number" class="weight-value" min="0" max="200" required>
+                <button class="btn add-weight-btn">Edit Today's Data</button>
+            </form>
+        {% endif %}
+
+        <br><br><br><br><br><br>
+
+    </div>
+</div>
+{% endblock %}

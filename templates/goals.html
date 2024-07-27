@@ -1,0 +1,54 @@
+{% extends "account_layout.html" %}
+
+{% block main %}
+
+{% for message in get_flashed_messages() %}
+<div class="alert-warning alert">
+    <button type="button" class="close" data-dismiss="alert" onclick="closeAlert()">&times;</button>
+    {{ message }}
+</div>
+{% endfor %}
+
+<form action="/goals" method="post" class="login">
+    <div class="goal-input-description-1">Before we start, help us help you set your goals!</div>
+    <br>
+    <div class="goal-input-description-2">Key in some key numbers below..</div>
+    <br><br>
+    <div class="body-values">
+        <div class="body-value-description">Target weight:</div>
+        <div class="mb-3 body-value-input">
+            <input autocomplete="off" autofocus class="form-input target-form-input" name="target-weight" placeholder="Weight" type="number">
+        </div>
+    </div>
+    <br>
+    <div class="body-values">
+        <div class="body-value-description">Target calories:</div>
+        <div class="mb-3 body-value-input">
+            <input autocomplete="off" autofocus class="form-input target-form-input" name="target-calories" placeholder="Calorie Intake" type="number">
+        </div>
+    </div>
+    <br>
+    <div class="body-values">
+        <div class="body-value-description">Target carbs:</div>
+        <div class="mb-3 body-value-input">
+            <input autocomplete="off" autofocus class="form-input target-form-input" name="target-carbs" placeholder="Carbs Intake" type="number">
+        </div>
+    </div>
+    <br>
+    <div class="body-values">
+        <div class="body-value-description">Target protein:</div>
+        <div class="mb-3 body-value-input">
+            <input autocomplete="off" autofocus class="form-input target-form-input" name="target-protein" placeholder="Protein Intake" type="number">
+        </div>
+    </div>
+    <br>
+    <div class="body-values">
+        <div class="body-value-description">Target fats:</div>
+        <div class="mb-3 body-value-input">
+            <input autocomplete="off" autofocus class="form-input target-form-input" name="target-fats" placeholder="Fats Intake" type="number">
+        </div>
+    </div>
+    <br>
+    <button class="btn" type="submit">Submit</button>
+</form>
+{% endblock %}

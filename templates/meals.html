@@ -1,0 +1,139 @@
+{% extends "main_layout.html" %}
+
+{% block main %}
+<!-- Header -->
+<div class="header">
+        <div class="page-icons">
+            <a href="/dashboard" class="hyperlinks"><button class="page-icon">Dashboard</button></a>
+            <a href="/meals" class="hyperlinks"><button class="page-icon active-icon">Meals</button></a>
+            <a href="/friends" class="hyperlinks"><button class="page-icon">Friends</button></a>
+        </div>
+        <div class="user-icons">
+            <a href="#" class="user-icon" onclick="openProfileCard()">User</a>
+        </div>
+</div>
+
+<div class="container">
+
+    <div class="add-meal-card">
+        <div class="close-meal-card">
+            <p class="close-meal-card-X" onclick="closeMealCard()">X</p>
+        </div>
+        <div class="add-meal-card-title"></div>
+        <form method="post" class="add-meal-card-form" action="/add_meal">
+            <input type="hidden" name="action-type" value="" class="action-type">
+            <input type="hidden" name="meal-date" value="" class="meal-date">
+            <input type="hidden" name="meal-classification" value="" class="meal-classification">
+
+            <div class="add-meal-card-select">
+                <div class="add-meal-card-steps">
+                    <div class="step-number">Step 1</div>
+                    <div class="step-name">Select food name..</div>
+                </div>
+                <input type="hidden" name="meal-name" value="" class="meal-dropbtn-input">
+                <button onclick="openMealDropdown()" class="btn meal-dropbtn">Open dropdown</button>
+                <div id="add-meal-card-dropdown" class="dropdown-content">
+                    <input type="text" placeholder="Search.." id="add-meal-card-dropdown-input" onkeyup="filterMealsFunction()">
+                    {% for name in food_names %}
+                        <button class="add-meal-card-option" onclick="changeMealName(this, event)">{{ name }}</button>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div class="add-meal-img-step">
+                <div class="add-meal-card-steps">
+                    <div class="step-number">Step 2</div>
+                    <div class="step-name">Upload an image of your meal..</div>
+                </div>
+                <div class="add-meal-img-file"></div>
+                <div class="add-meal-img-preview">
+                    <input type="file" class="add-meal-img" accept="image/*" name="meal-filepath" placeholder="Upload image" required>
+                </div>
+            </div>
+
+            <div class="submit-meal-step">
+                <div class="add-meal-card-steps">
+                    <div class="step-number">Step 3</div>
+                    <div class="step-name">Submit the meal</div>
+                </div>
+                <button class="btn submit-add-meal" type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="add-meal-card-background"></div>
+
+    {% for today in all_meals %}
+        <div class="day-meals">
+            <h2 class="meal-date">{{ today }}</h2>
+            <div class="meal-details">
+                <div class="meal-charts">
+                    <div class="meal-chart">
+                        <h3 class="meal-chart-title">Calories</h3>
+                        <div class="calorie-chart calorie-chart-{{ all_meals[today]['counter'] }}">{{ all_meals[today]["daily_nutrition"]["calories"] }}</div>
+                        <div class="calorie-chart-goal">{{ nutrition_goals["calories"] }}</div>
+                    </div>
+                    <div class="meal-chart">
+                        <h3 class="meal-chart-title">Carbs</h3>
+                        <div class="carbs-chart carbs-chart-{{ all_meals[today]['counter'] }}">{{ all_meals[today]["daily_nutrition"]["carbs"] }}</div>
+                        <div class="carbs-chart-goal">{{ nutrition_goals["carbs"] }}</div>
+                    </div>
+                    <div class="meal-chart">
+                        <h3 class="meal-chart-title">Protein</h3>
+                        <div class="protein-chart protein-chart-{{ all_meals[today]['counter'] }}">{{ all_meals[today]["daily_nutrition"]["protein"] }}</div>
+                        <div class="protein-chart-goal">{{ nutrition_goals["protein"] }}</div>
+                    </div>
+                    <div class="meal-chart">
+                        <h3 class="meal-chart-title">Fats</h3>
+                        <div class="fats-chart fats-chart-{{ all_meals[today]['counter'] }}">{{ all_meals[today]["daily_nutrition"]["fats"] }}</div>
+                        <div class="fats-chart-goal">{{ nutrition_goals["fats"] }}</div>
+                    </div>
+                </div>
+                <div class="meals">
+                    {% for classification in ["breakfast", "lunch", "dinner"] %}
+                        <div class="meal">
+                            {% if classification in all_meals[today]["meals"] %}
+                                <div class="meal-title-name">
+                                    <h2 class="meal-title">{{ classification }}</h2>
+                                    <h2 class="meal-name">{{ all_meals[today]["meals"][classification]["meal_name"] }}</h2>
+                                </div>
+                                <img class="meal-img" src="static/Chaewon.jpg">
+                                <div class="meal-descriptions">
+                                    <div class="meal-descriptions-column">
+                                        <h2 class="meal-description-calories">Calories</h2>
+                                        <h2 class="meal-description-carbs">Carbs</h2>
+                                        <h2 class="meal-description-protein">Protein</h2>
+                                        <h2 class="meal-description-fats">Fats</h2>
+                                    </div>
+                                    <div class="meal-descriptions-column">
+                                        <h2 class="meal-description-calories">{{ all_meals[today]["meals"][classification]["calories"] }}</h2>
+                                        <h2 class="meal-description-carbs">{{ all_meals[today]["meals"][classification]["carbs"] }}</h2>
+                                        <h2 class="meal-description-protein">{{ all_meals[today]["meals"][classification]["protein"] }}</h2>
+                                        <h2 class="meal-description-fats">{{ all_meals[today]["meals"][classification]["fats"] }}</h2>
+                                    </div>
+                                </div>
+                                <div class="add-meal update-meal edit-meal-btns">
+                                    <form method="post" action="/remove_meal">
+                                        <input type="hidden" name="remove-meal-classification" value="{{ classification }}">
+                                        <input type="hidden" name="remove-meal-date" value="{{ today }}">
+                                        <button class="btn update-meal-button" type="submit">Remove</button>
+                                    </form>
+                                    <button class="btn update-meal-button" onclick="openMealCard('{{ classification }}', '{{ today }}', 'Update')">Update Meal</button>
+                                </div>
+                            {% else %}
+                                <div class="meal-title-name">
+                                    <h2 class="meal-title">{{ classification }}</h2>
+                                    <div class="add-meal">
+                                        <button class="btn add-meal-button" onclick="openMealCard('{{ classification }}', '{{ today }}', 'Add')">Add Meal</button>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    
+</div>
+{% endblock %}

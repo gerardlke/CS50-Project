@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <!-- Metadata -->
+        <meta charset="UTF-8">
+        <meta name="description" content="Final Project">
+        <meta name="viewport" content="width=device-with, initial-scale=1">
+
+        <!-- Title -->
+        <title>Meal Tracker</title>
+
+        <!-- Styles -->
+        <link href="static/styles.css" rel="stylesheet">
+
+        <link href="https://cdn.jsdivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+        <script src="https://kit.fontawesome.com/8c32c945c3.js" crossorigin="anonymous"></script>
+    </head>
+
+    <body>
+        <!-- Header -->
+        <div class="header">
+                <div class="page-icons">
+                    <a href="/index" class="hyperlinks"><button class="page-icon active-icon">Dashboard</button></a>
+                    <a href="/meals" class="hyperlinks"><button class="page-icon">Meals</button></a>
+                    <a href="/friends" class="hyperlinks"><button class="page-icon">Friends</button></a>
+                </div>
+                <div class="user-icons">
+                    <a href="#" class="user-icon" onclick="openProfileCard()">User</a>
+                </div>
+        </div>
+        
+        <!-- Profile -->
+        <div class="profile-card-background"></div>
+        <div class="profile-card">
+            <div class="close-profile-card">
+                <p class="close-profile-card-X" onclick="closeProfileCard()">X</p>
+            </div>
+            <img src="" alt="" class="menu-icon">
+            <img src="" alt="" class="setting-icon">
+            <img src="static/Chaewon.jpg" alt="" class="profile-icon">
+            <h3 class="profile-name">Username</h3>
+            <p ></p>
+            <p>Joined since</p>
+        </div>
+
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+
+
+
+        <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+        <script>
+            AOS.init();
+        </script>
+    </body>
+</html>

@@ -1,0 +1,57 @@
+{% extends "main_layout.html" %}
+
+{% block main %}
+<!-- Header -->
+<div class="header">
+        <div class="page-icons">
+            <a href="/dashboard" class="hyperlinks"><button class="page-icon">Dashboard</button></a>
+            <a href="/meals" class="hyperlinks"><button class="page-icon">Meals</button></a>
+            <a href="/friends" class="hyperlinks"><button class="page-icon active-icon">Friends</button></a>
+        </div>
+        <div class="user-icons">
+            <a href="#" class="user-icon" onclick="openProfileCard()">User</a>
+        </div>
+</div>
+
+<!-- Friends -->
+<div class="container">
+    <div class="friends-list">
+        <div class="search-friends-list">
+
+            <form method="post" action="">
+                <input class="search-friends-list-bar" placeholder="Search friends" onclick="searchFriends()">
+            </form>
+
+            <div class="new-friends">
+                {% for user in users %}
+                    <form class="new-friends-item" action="/add_friend" method="post">
+                        <img src="static/Chaewon.jpg" alt="" class="friends-list-item-icon">
+                        <div class="user-profile">
+                            <h3 class="profile-name" value="{{ user['name'] }}">{{ user["name"] }}</h3>
+                            <p class="profile-email" value="{{ user['email'] }}">{{ user["email"] }}</p>
+                            <input type="hidden" value="{{ user['name'] }}" name="profile-name">
+                        </div>
+                        <button class="add-new-friends" type="submit">+</button>
+                    </form>
+                {% endfor %}
+            </div>
+        </div>
+        {% for friend in friends %}
+            <div class="friends-list-item">
+                <img src="static/Chaewon.jpg" alt="{{ friend.get('filepath') }}" class="friends-list-item-icon">
+                <div class="user-profile"> 
+                    <h3 class="profile-name">{{ friend.get("name") }}</h3>
+                    <p class="profile-email">{{ friend.get("email") }}</p>
+                </div>
+                <div class="user-details">
+                    <h3 class="profile-added">Friends since <br> {{ friend.get("date_added") }}</h3>
+                </div>
+                <form class="remove-friend" method="post" action="/remove_friend">
+                    <input type="hidden" value="{{ friend.get('name') }}" name="profile-name">
+                    <button class="btn remove-friend-btn">Remove</button>
+                </form>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

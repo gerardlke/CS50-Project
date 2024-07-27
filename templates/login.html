@@ -1,0 +1,25 @@
+{% extends "account_layout.html" %}
+
+{% block main %}
+
+{% for message in get_flashed_messages() %}
+<div class="alert-warning alert">
+    <button type="button" class="close" data-dismiss="alert" onclick="closeAlert()">&times;</button>
+    {{ message }}
+</div>
+{% endfor %}
+
+<form action="/login" method="post" class="login">
+    <div class="mb-3">
+        <input autocomplete="off" autofocus class="form-input" name="username" placeholder="Username" type="text">
+    </div>
+    <br>
+    <div class="mb-3">
+        <input class="form-input" name="password" placeholder="Password" type="password">
+    </div>
+    <br>
+    <button class="btn" type="submit">Log In</button>
+    <br>
+    <a href="/register" class="account">Don't have an account? Register here</a>
+</form>
+{% endblock %}
