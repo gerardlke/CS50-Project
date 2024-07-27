@@ -2,7 +2,17 @@
 
 ## VIDEO DEMO: 
 
-URL - https://youtu.be/kUVQdyd_6Pc
+URL - https://youtu.be/kUVQdyd_6Pcdeleting data as requested.
+
+## HOW TO RUN:
+
+1. Create your own python venv
+
+2. Pip install packages from the requirements.txt
+
+3. Run batch file
+
+4. Use website!
 
 ## DESCRIPTION:
 
@@ -31,4 +41,4 @@ Ultimately, the website created was strongly focused on providing a **smooth and
 
 ### 6. The backend
 
-The backend code was split into **3 python files**, one main file for **all flask APIs** used by the font end, one **middleman controller** file for all calculations and ugly logic that needed to be reused or recycled, and one file solely to **communicate with the database**, selecting, inserting, updating or deleting data as requested.
+The backend code was split into **3 python files**, one main file for **all flask APIs** used by the font end, one **middleman controller** file for all calculations and ugly logic that needed to be reused or recycled, and one file solely to **communicate with the database**, selecting, inserting, updating or 
